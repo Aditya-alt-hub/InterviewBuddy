@@ -259,9 +259,9 @@ console.log("codeSubmission:", codeSubmission);
     try {
       pushSocketUpdate(io, userId, sessionId, "AI_TRANSCRIPTING", "Transcribing audio...");
 
-      if (!fs.existsSync(audioFilePath)) {
-      throw new Error(`Audio file not found: ${audioFilePath}`);
-    }
+    //   if (!fs.existsSync(audioFilePath)) {
+    //   throw new Error(`Audio file not found: ${audioFilePath}`);
+    // }
 
       const formData = new FormData();
       formData.append("file", fs.createReadStream(audioFilePath));
