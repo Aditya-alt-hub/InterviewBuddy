@@ -230,12 +230,12 @@ const evaluateAnswerAsync = async (
   userId,
   sessionId,
   questionIndex,
-  audioFilePath = null,
+  audioFile= null,
   codeSubmission = null
 ) => {
     console.log("EVALUATE STARTED");
 console.log("questionIndex:", questionIndex);
-console.log("audioFilePath:", audioFilePath);
+console.log("audioFile:", audioFile);
 console.log("codeSubmission:", codeSubmission);
   let transcription = " ";
 
@@ -255,7 +255,7 @@ console.log("codeSubmission:", codeSubmission);
     return;
   }
 
-  if (audioFilePath) {
+  if (audioFile) {
     try {
       pushSocketUpdate(io, userId, sessionId, "AI_TRANSCRIPTING", "Transcribing audio...");
 
@@ -264,7 +264,11 @@ console.log("codeSubmission:", codeSubmission);
     // }
 
       const formData = new FormData();
-      formData.append("file", fs.createReadStream(audioFilePath));
+      // formData.append("file", fs.createReadStream(audioFile));
+      formData.append("file", audioFile.buffer, {
+        filename: audioFile.originalname || "answer.webm",
+        contentType: audioFile.mimetype || "audio/webm",
+      });
 
       const transResponse = await fetch(`${AI_SERVICE_URL}/transcribe`, {
         method: "POST",
@@ -276,13 +280,19 @@ console.log("codeSubmission:", codeSubmission);
         const transData = await transResponse.json();
         transcription = transData.transcription || " ";
       }
+      else
+      {
+        const errText = await transResponse.text();
+        console.error("TRANSCRIPTION API ERROR:", errText);
+      }
     } catch (error) {
       console.error("TRANSCRIPTION ERROR:", error.message);
-    } finally {
-      if (audioFilePath && fs.existsSync(audioFilePath)) {
-        fs.unlinkSync(audioFilePath);
-      }
     }
+    // } finally {
+    //   if (audioFile && fs.existsSync(audioFile)) {
+    //     fs.unlinkSync(audioFile);
+    //   }
+    //}
   }
 
   try {
@@ -557,12 +567,14 @@ const submitAnswer = asyncHandler(async (req, res) => {
     });
   }
 
-  let audioFilePath = null;
+  // let audioFilePath = null;
 
-  if (req.file) {
-    audioFilePath = path.join(process.cwd(), req.file.path);
+  // if (req.file) {
+  //   audioFilePath = path.join(process.cwd(), req.file.path);
     
-  }
+  // }
+
+  const audioFile = req.file || null;
 
   question.answerisSubmitted = true;
   await session.save();
@@ -579,7 +591,8 @@ const submitAnswer = asyncHandler(async (req, res) => {
     userId,
     sessionId,
     questionIdx,
-    audioFilePath,
+    // audioFilePath,
+    audioFile,
     code || null
   );
 });
