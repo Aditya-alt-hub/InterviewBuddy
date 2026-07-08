@@ -34,6 +34,8 @@ import multer from "multer";
 
 const storage = multer.memoryStorage();
 
+console.log(req.file);
+
 const fileFilter = (req, file, cb) => {
   if (
     file.mimetype.startsWith("audio/") ||

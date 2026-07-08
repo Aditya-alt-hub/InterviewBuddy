@@ -270,11 +270,28 @@ console.log("codeSubmission:", codeSubmission);
         contentType: audioFile.mimetype || "audio/webm",
       });
 
+      console.log("Sending audio to AI service...");
+console.log("Filename:", audioFile.originalname);
+console.log("Mime:", audioFile.mimetype);
+console.log("Size:", audioFile.size);
+console.log("AI URL:", `${AI_SERVICE_URL}/transcribe`);
+
       const transResponse = await fetch(`${AI_SERVICE_URL}/transcribe`, {
         method: "POST",
         body: formData,
         headers: formData.getHeaders(),
       });
+
+      console.log("Transcribe status:", transResponse.status);
+
+if (!transResponse.ok) {
+  const err = await transResponse.text();
+  console.error("Transcribe API Error:", err);
+  throw new Error(`Transcribe failed: ${transResponse.status}`);
+}
+
+const transData = await transResponse.json();
+transcription = transData.transcription || "";
 
       if (transResponse.ok) {
         const transData = await transResponse.json();
