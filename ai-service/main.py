@@ -314,28 +314,140 @@ async def root():
     }
 
 
+# @app.post("/generate-questions", response_model=QuestionResponse)
+# async def generate_questions(request: QuestionRequest):
+#     try:
+#         if request.interview_type == "coding":
+#             coding_count = int(request.count * 0.2)
+#             hr_count = int(request.count * 0.2)
+#             technical_count = request.count - coding_count - hr_count
+
+#             instruction = (
+#                 f"Generate exactly {request.count} questions. "
+#                 f"First {coding_count} questions must be coding challenge questions. "
+#                 f"Next {technical_count} questions must be conceptual technical questions. "
+#                 f"Last {hr_count} questions must be HR/behavioral questions. "
+#             )
+#         else:
+#             instruction = (
+#                 f"Generate exactly {request.count} conceptual technical questions only. "
+#                 "Do not generate coding or HR questions."
+#             )
+
+#         system_prompt = (
+#             "You are a professional technical interviewer. "
+#             "Generate interview questions only. "
+#             "No explanation. No numbering. "
+#             "Output exactly one question per line. "
+#             f"{instruction}"
+#         )
+
+#         user_prompt = (
+#             f"Role: {request.role}\n"
+#             f"Level: {request.level}\n"
+#             f"Total Questions: {request.count}\n"
+#         )
+
+#         raw_text = ask_gemini(
+#             prompt=user_prompt,
+#             system_prompt=system_prompt,
+#             temperature=0.6,
+#             json_mode=False,
+#         )
+
+#         questions = [q.strip("-•0123456789. ").strip() for q in raw_text.split("\n") if q.strip()]
+
+#         return QuestionResponse(
+#             questions=questions[:request.count],
+#             model_used=GEMINI_MODEL,
+#         )
+
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/generate-questions", response_model=QuestionResponse)
 async def generate_questions(request: QuestionRequest):
     try:
-        if request.interview_type == "coding":
-            coding_count = int(request.count * 0.2)
-            hr_count = int(request.count * 0.2)
-            technical_count = request.count - coding_count - hr_count
+        interview_type = request.interview_type.lower()
 
+        if interview_type == "coding":
             instruction = (
-                f"Generate exactly {request.count} questions. "
-                f"First {coding_count} questions must be coding challenge questions. "
-                f"Next {technical_count} questions must be conceptual technical questions. "
-                f"Last {hr_count} questions must be HR/behavioral questions. "
+                f"Generate exactly {request.count} coding challenge questions only. "
+                "Do not generate conceptual technical or HR questions. "
+                "Questions should require writing code, solving logic, algorithms, or implementation."
             )
-        else:
+
+        elif interview_type == "coding" and request.role == "Data Structures and Algorithms":
+            instruction = (
+               f"""Generate exactly {request.count} Data Structures and Algorithms coding interview questions only. "
+
+                Each question MUST follow this exact format:
+
+                Problem Statement:
+                - Write a clear and detailed problem description.
+
+                Input Format:
+                - Explain the input.
+
+                Output Format:
+                - Explain the expected output.
+
+                Constraints:
+                - Include realistic interview constraints.
+
+                Example 1:
+                Input:
+                ...
+
+                Output:
+                ...
+
+                Explanation:
+                ...
+
+                Example 2:
+                Input:
+                ...
+
+                Output:
+                ...
+
+                Explanation:
+                ...
+
+                Hint:
+                - Give only one small hint.
+                - Do NOT reveal the algorithm or complete approach.
+
+                Requirements:
+                - Do NOT provide the solution.
+                - Do NOT provide code.
+                - Do NOT provide time or space complexity.
+                - Questions should be suitable for {request.level} level.
+                - Questions should match the role: {request.role}.
+                - Every question should be independent.
+                """
+            )
+            
+        elif interview_type == "technical":
             instruction = (
                 f"Generate exactly {request.count} conceptual technical questions only. "
-                "Do not generate coding or HR questions."
+                "Do not generate coding challenge or HR questions. "
+                "Questions should test concepts, theory, architecture, tools, and practical understanding."
             )
 
+        elif interview_type == "hr":
+            instruction = (
+                f"Generate exactly {request.count} HR or behavioral interview questions only. "
+                "Do not generate coding or conceptual technical questions. "
+                "Questions should test communication, attitude, teamwork, conflict handling, and career goals."
+            )
+
+        else:
+            raise HTTPException(status_code=400, detail="Invalid interview_type. Use coding, Technical, or HR")
+
         system_prompt = (
-            "You are a professional technical interviewer. "
+            "You are a professional interviewer. "
             "Generate interview questions only. "
             "No explanation. No numbering. "
             "Output exactly one question per line. "
@@ -345,6 +457,7 @@ async def generate_questions(request: QuestionRequest):
         user_prompt = (
             f"Role: {request.role}\n"
             f"Level: {request.level}\n"
+            f"Interview Type: {request.interview_type}\n"
             f"Total Questions: {request.count}\n"
         )
 
@@ -355,12 +468,19 @@ async def generate_questions(request: QuestionRequest):
             json_mode=False,
         )
 
-        questions = [q.strip("-•0123456789. ").strip() for q in raw_text.split("\n") if q.strip()]
+        questions = [
+            q.strip("-•0123456789. ").strip()
+            for q in raw_text.split("\n")
+            if q.strip()
+        ]
 
         return QuestionResponse(
             questions=questions[:request.count],
             model_used=GEMINI_MODEL,
         )
+
+    except HTTPException:
+        raise
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

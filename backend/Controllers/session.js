@@ -80,18 +80,18 @@ const createSession = asyncHandler(async (req, res) => {
         throw new Error("AI did not return questions array");
       }
 
-      const codingCount = Math.floor(Number(count) * 0.2);
-      const hrCount = Math.floor(Number(count) * 0.2);
-      const technicalCount = Number(count) - codingCount - hrCount;
+      // const codingCount = Math.floor(Number(count) * 0.2);
+      // const hrCount = Math.floor(Number(count) * 0.2);
+      // const technicalCount = Number(count) - codingCount - hrCount;
 
       session.questions = aiData.questions.map((qText, index) => ({
         questionText: qText,
-        questionType:
-          index < codingCount
-            ? "coding"
-            : index < codingCount + technicalCount
-            ? "Technical"
-            : "HR",
+        questionType: interviewType,
+          // index < codingCount
+          //   ? "coding"
+          //   : index < codingCount + technicalCount
+          //   ? "Technical"
+          //   : "HR",
         questionDifficulty:
           level === "Junior" ? "easy" : level === "Senior" ? "hard" : "medium",
         answerisSubmitted: false,

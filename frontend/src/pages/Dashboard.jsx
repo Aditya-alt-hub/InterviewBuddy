@@ -14,7 +14,7 @@ import SessionCard from "../components/SessionCard";
 
 const ROLES = [
   "MERN Stack Developer",
-  "MEAN Stack Developer",
+  "DATA Structures and Algorithms",
   "Full Stack Python",
   "Full Stack Java",
   "Frontend Developer",

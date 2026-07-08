@@ -51,6 +51,7 @@ const ROLE_LANGUAGE_MAP = {
   "QA Automation Engineer": "python",
   "UI/UX Designer": "css",
   "Product Manager": "markdown",
+  "Data Structures and Algorithms": "plaintext",
 };
 
 function InterviewRunner() {
