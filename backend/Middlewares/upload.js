@@ -1,5 +1,5 @@
 import multer from "multer";
-import fs from "fs";
+// import fs from "fs";
 import path from "path";
 
 // Create uploads folder if it doesn't exist
