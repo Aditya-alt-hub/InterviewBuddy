@@ -560,8 +560,8 @@ const submitAnswer = asyncHandler(async (req, res) => {
   let audioFilePath = null;
 
   if (req.file) {
-    // audioFilePath = path.join(process.cwd(), req.file.path);
-    audioFilePath = req.file.path;
+    audioFilePath = path.join(process.cwd(), req.file.path);
+    
   }
 
   question.answerisSubmitted = true;
