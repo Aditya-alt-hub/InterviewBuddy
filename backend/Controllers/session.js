@@ -259,6 +259,10 @@ console.log("codeSubmission:", codeSubmission);
     try {
       pushSocketUpdate(io, userId, sessionId, "AI_TRANSCRIPTING", "Transcribing audio...");
 
+      if (!fs.existsSync(audioFilePath)) {
+      throw new Error(`Audio file not found: ${audioFilePath}`);
+    }
+
       const formData = new FormData();
       formData.append("file", fs.createReadStream(audioFilePath));
 
@@ -556,7 +560,8 @@ const submitAnswer = asyncHandler(async (req, res) => {
   let audioFilePath = null;
 
   if (req.file) {
-    audioFilePath = path.join(process.cwd(), req.file.path);
+    // audioFilePath = path.join(process.cwd(), req.file.path);
+    audioFilePath = req.file.path;
   }
 
   question.answerisSubmitted = true;
