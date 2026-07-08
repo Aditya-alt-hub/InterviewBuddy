@@ -270,11 +270,7 @@ console.log("codeSubmission:", codeSubmission);
         contentType: audioFile.mimetype || "audio/webm",
       });
 
-      console.log("Sending audio to AI service...");
-console.log("Filename:", audioFile.originalname);
-console.log("Mime:", audioFile.mimetype);
-console.log("Size:", audioFile.size);
-console.log("AI URL:", `${AI_SERVICE_URL}/transcribe`);
+      
 
       const transResponse = await fetch(`${AI_SERVICE_URL}/transcribe`, {
         method: "POST",

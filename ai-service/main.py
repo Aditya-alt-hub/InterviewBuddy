@@ -346,9 +346,14 @@ async def transcribe_audio(file: UploadFile = File(...)):
         aai.settings.api_key = api_key
 
         audio_bytes = await file.read()
+        suffix = os.path.splitext(file.filename or "")[1] or ".webm"
+
+        with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+            temp_audio_path = tmp.name
+            tmp.write(audio_bytes)
 
         transcriber = aai.Transcriber()
-        transcript = transcriber.transcribe(audio_bytes)
+        transcript = transcriber.transcribe(temp_audio_path)
 
         if transcript.error:
             raise HTTPException(status_code=500, detail=transcript.error)
@@ -357,6 +362,9 @@ async def transcribe_audio(file: UploadFile = File(...)):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        if temp_audio_path and os.path.exists(temp_audio_path):
+            os.remove(temp_audio_path)
 
 @app.post("/evaluate", response_model=EvaluationResponse)
 async def evaluate(request: EvaluationRequest):
