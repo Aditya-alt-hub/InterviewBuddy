@@ -11,7 +11,7 @@ import userRoutes from "./routes/user.js";
 import sessionRoutes from "./routes/session.js";
 // import interviewRoutes from "./routes/interviewRoutes.js";
 // import resumeRoutes from "./routes/resumeRoutes.js";
-import { notFound, errorHandler } from "./middlewares/error.js";
+import { notFound, errorHandler } from "./Middlewares/error.js";
 
 
 dotenv.config({ path: ".env" });
