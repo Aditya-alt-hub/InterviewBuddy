@@ -1,7 +1,7 @@
 
 
 
-import Session from "../models/Session.js";
+import Session from "../models/session.js";
 import asyncHandler from "express-async-handler";
 import fetch from "node-fetch";
 import fs from "fs";
