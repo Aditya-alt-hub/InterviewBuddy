@@ -317,7 +317,7 @@ const googleLogin = asyncHandler(async (req, res) => {
     name,
     email,
     googleId,
-    password: null,
+    // password: null,
   });
 
   return res.status(201).json({

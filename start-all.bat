@@ -1,25 +1,23 @@
 @echo off
-echo Starting AI Interviewer Services...
+echo Starting Interview Buddy Services...
 
 REM ===============================
 REM Start Backend
 REM ===============================
-start cmd /k "cd backend && npm run dev"
+start cmd /k "cd /d E:\Interview Buddy\backend && npm run dev"
 
 REM ===============================
-REM Start Ollama + Mistral
+REM Start AI Service (FastAPI + Gemini)
 REM ===============================
-start cmd /k "ollama run mistral"
-
-REM ===============================
-REM Start AI Service (FastAPI)
-REM ===============================
-start cmd /k "cd ai-service && venv\Scripts\activate && python main.py"
+start cmd /k "cd /d E:\Interview Buddy\ai-service && .\venv\Scripts\python.exe main.py"
 
 REM ===============================
 REM Start Frontend
 REM ===============================
-start cmd /k "cd frontend && npm run dev"
+start cmd /k "cd /d E:\Interview Buddy\frontend && npm run dev"
 
-echo All services launched 🚀
+echo.
+echo ===========================================
+echo All services launched successfully!
+echo ===========================================
 pause
