@@ -225,7 +225,7 @@ from typing import Optional
 from google import genai
 from google.genai import types
 
-import whisper
+# import whisper
 # from pydub import AudioSegment
 
 load_dotenv()
@@ -246,15 +246,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-WHISPER_MODEL = None
+# WHISPER_MODEL = None
 
-try:
-    print("Loading Whisper Model...")
-    WHISPER_MODEL = whisper.load_model("base.en")
-    print("Whisper Model Loaded Successfully")
-except Exception as e:
-    print("Error while loading Whisper Model")
-    print(e)
+# try:
+#     print("Loading Whisper Model...")
+#     WHISPER_MODEL = whisper.load_model("base.en")
+#     print("Whisper Model Loaded Successfully")
+# except Exception as e:
+#     print("Error while loading Whisper Model")
+#     print(e)
 
 
 class QuestionRequest(BaseModel):
@@ -513,32 +513,39 @@ async def generate_questions(request: QuestionRequest):
 
 #         raise HTTPException(status_code=500, detail=str(e))
 
+# @app.post("/transcribe")
+# async def transcribe_audio(file: UploadFile = File(...)):
+#     temp_audio_path = None
+
+#     try:
+#         audio_bytes = await file.read()
+
+#         suffix = os.path.splitext(file.filename or "")[1] or ".mp3"
+
+#         with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+#             temp_audio_path = tmp.name
+#             tmp.write(audio_bytes)
+
+#         if not WHISPER_MODEL:
+#             raise HTTPException(status_code=503, detail="Whisper Model is not loaded")
+
+#         result = WHISPER_MODEL.transcribe(temp_audio_path)
+
+#         return {"transcription": result["text"].strip()}
+
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
+
+#     finally:
+#         if temp_audio_path and os.path.exists(temp_audio_path):
+#             os.remove(temp_audio_path)
+
 @app.post("/transcribe")
 async def transcribe_audio(file: UploadFile = File(...)):
-    temp_audio_path = None
-
-    try:
-        audio_bytes = await file.read()
-
-        suffix = os.path.splitext(file.filename or "")[1] or ".mp3"
-
-        with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
-            temp_audio_path = tmp.name
-            tmp.write(audio_bytes)
-
-        if not WHISPER_MODEL:
-            raise HTTPException(status_code=503, detail="Whisper Model is not loaded")
-
-        result = WHISPER_MODEL.transcribe(temp_audio_path)
-
-        return {"transcription": result["text"].strip()}
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-    finally:
-        if temp_audio_path and os.path.exists(temp_audio_path):
-            os.remove(temp_audio_path)
+    raise HTTPException(
+        status_code=503,
+        detail="Voice transcription is temporarily disabled on the deployed server."
+    )
 
 
 @app.post("/evaluate", response_model=EvaluationResponse)
