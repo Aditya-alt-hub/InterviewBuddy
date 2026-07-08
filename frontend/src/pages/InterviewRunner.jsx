@@ -572,7 +572,7 @@ function InterviewRunner() {
                   disabled={isQuestionLocked}
                   className="flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 to-teal-500 text-5xl shadow-2xl shadow-cyan-500/30 transition hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  🎤
+                  
                 </button>
               ) : isRecording ? (
                 <div className="text-center">
@@ -590,7 +590,7 @@ function InterviewRunner() {
               ) : (
                 <div className="text-center">
                   <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-3xl bg-emerald-500/10 text-4xl">
-                    ✅
+                    
                   </div>
 
                   <p className="text-xl font-black text-emerald-400">
@@ -660,7 +660,7 @@ function InterviewRunner() {
         {currentQuestion?.answerisEvaluated && (
           <section className="rounded-[2rem] border border-emerald-400/20 bg-emerald-500/10 p-6 shadow-xl backdrop-blur-xl">
             <h3 className="text-xl font-black text-emerald-300">
-              💡 AI Feedback
+               AI Feedback
             </h3>
 
             <p className="mt-3 text-sm leading-relaxed text-emerald-100">
@@ -687,7 +687,7 @@ function InterviewRunner() {
           <div className="flex flex-col items-center">
             {isProcessing && message && (
               <div className="mb-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-1 text-xs font-bold text-cyan-300 animate-pulse">
-                🤖 {message}...
+                 {message}...
               </div>
             )}
 
