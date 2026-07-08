@@ -9,7 +9,7 @@ import FormData from "form-data";
 import path from "path";
 import mongoose from "mongoose";
 
-
+const AI_SERVICE_URL = process.env.AI_SERVICE_URL || "http://localhost:8000";
 
 const pushSocketUpdate = (io, userId, sessionId, status, message, sessionData = null) => {
   io.to(userId.toString()).emit("sessionUpdate", {
