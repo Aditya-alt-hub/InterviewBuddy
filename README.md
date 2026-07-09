@@ -79,7 +79,7 @@ Supported languages:
 
 ---
 
-# 🛠 Tech Stack
+#  Tech Stack
 
 ## Frontend
 
@@ -361,6 +361,16 @@ Store Results
 
 Review Interview
 ```
+# ScreenShots
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/8c29e974-a3a3-4736-bd7b-1000711d10de" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/57fa769f-0f1a-42c0-8dbb-adbdbfd9adea" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/5cd610c0-6025-44ef-99fe-b8dbbb067cf7" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b266f4c5-5ae5-4ad8-a606-b63cc808f256" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/6e0158cb-141d-4725-80a1-340b9a47e602" />
 
 ---
 
