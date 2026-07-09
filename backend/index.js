@@ -111,6 +111,14 @@ io.on("connection", (socket) => {
 });
 
 
+app.get("/", (req, res) => {
+  res.json({ message: "Backend running" });
+});
+
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
 // //apis
 // "http://localhost:5000/register"
 // "http://localhost:5000/login"
