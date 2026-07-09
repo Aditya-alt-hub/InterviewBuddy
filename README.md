@@ -368,9 +368,7 @@ Review Interview
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/5cd610c0-6025-44ef-99fe-b8dbbb067cf7" />
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b266f4c5-5ae5-4ad8-a606-b63cc808f256" />
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/6e0158cb-141d-4725-80a1-340b9a47e602" />
 
 ---
 
@@ -430,7 +428,7 @@ git push origin feature/new-feature
 ---
 
 
-#  Author
+#  Developer
 
 Aditya Bhadauria
 
