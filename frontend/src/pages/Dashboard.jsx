@@ -115,7 +115,7 @@ const Dashboard = () => {
           <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.35em] text-cyan-300">
-                Interview 
+                Interview Buddy
               </p>
 
               <h1 className="mt-3 text-3xl font-black tracking-tight text-white sm:text-5xl">
